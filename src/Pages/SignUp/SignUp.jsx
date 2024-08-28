@@ -23,7 +23,8 @@ const SignUp = () => {
     // Sign In With Email Password
     const onSubmit = async data => {
         try {
-            const result = await createUser(data.email, data.password);
+            console.log(data);
+            // const result = await createUser(data.email, data.password);
             console.log(result);
             await updateUserProfile(data.name, data.photo)
             setUser({ ...user, photoURL: data.photo, displayName: data.name })
@@ -40,7 +41,7 @@ const SignUp = () => {
 
     if (user || loading) return
     return (
-        <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-5'>
+        <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-4'>
             <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl '>
                 <div className='w-full px-6 py-8 md:px-8 lg:w-1/2'>
                     <p className='mt-3 text-xl text-center text-gray-600 '>
@@ -71,27 +72,35 @@ const SignUp = () => {
                             </div>
                         </div>
                         {/* Photo url  Field*/}
-                        <div className='mt-2'>
+                        {/* <div className='mt-2'>
                             <div className="flex justify-between">
                                 <label
-                                    className='block mb-2 text-sm font-medium text-gray-600 '
-                                    htmlFor='LoggingEmailAddress'
+                                    className='block mb-2 text-sm font-medium text-gray-600'
+                                    htmlFor='photo'
                                 >
-                                    Photo Url
+                                    Upload Photo
                                 </label>
                             </div>
                             <input
                                 {...register("photo", { required: true })}
                                 id='photo'
-                                autoComplete='photo'
                                 name='photo'
-                                className='block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300'
-                                type='text'
+                                type='file'
+                                className='hidden'
                             />
+                            <button
+                                type='button'
+                                onClick={() => document.getElementById('photo').click()}
+                                className='block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300 text-left'
+                            >
+                                Choose Your Photo
+                            </button>
                             <div className="mt-2">
-                                {/* {errors.photo && <span className="text-red-600 ">Photo Url is required</span>} */}
+                                {errors.photo && <span className="text-red-600">Photo  is required</span>}
                             </div>
-                        </div>
+                        </div> */}
+
+
                         {/* District  Field*/}
                         <div className='mt-2'>
                             <div className="flex justify-between">
@@ -151,7 +160,7 @@ const SignUp = () => {
                                 id='blood'
                                 className='border p-2 rounded-md'
                             >
-                                <option disabled value='default'>Select a Group  </option>
+                                <option disabled value='default'>Select Your Group  </option>
                                 <option value='A+'>A+</option>
                                 <option value='A-'>A-</option>
                                 <option value='B+'>B+</option>
