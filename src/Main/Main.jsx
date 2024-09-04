@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from '../Components/Nav/Nav';
 import { Outlet, useLocation } from 'react-router-dom';
+import Footer from '../Components/Shared/Footer/Footer';
 
 const Main = () => {
     const loaction = useLocation();
@@ -8,7 +9,14 @@ const Main = () => {
     return (
         <div>
            { noHeaderFooter || <Nav></Nav>}
-            <Outlet/>
+           <div className=' min-h-[calc(100vh-68px)]'>
+        <Outlet />
+      </div>
+      {/* Footer     */}
+
+      <div >
+      <Footer/>
+      </div>
         </div>
     );
 };

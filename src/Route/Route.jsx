@@ -5,25 +5,27 @@ import {
 import Main from "../Main/Main";
 import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Login/Login";
-import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import Blog from "../Pages/Blog/Blog";
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Main></Main>,
+      errorElement:<ErrorPage/>,
       children:[
         {
             path : '/',
             element : <Home/>
         },
         {
-          path: '/login',
-          element : <Login/>
+            path : '/blog',
+            element : <Blog/>
         },
         {
-          path: '/signin',
-          element :<SignIn/>
+          path: '/login',
+          element : <Login/>
         },
         {
           path: '/signup',
