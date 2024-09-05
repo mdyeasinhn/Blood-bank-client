@@ -5,12 +5,13 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { imageUploadFn } from "../../Utils";
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { createUser, updateUserProfile, user, setUser, loading } = useContext(AuthContext);
+    const { createUser, updateUserProfile, user, setUser, loading , setLoading} = useContext(AuthContext);
     useEffect(() => {
         if (user) {
             navigate('/')
@@ -23,11 +24,19 @@ const SignUp = () => {
     // Sign In With Email Password
     const onSubmit = async data => {
         try {
+         setLoading(true)
+            // 1. upload image url get img url 
+            const imageUrl = await imageUploadFn(data.image[0])
+         
+            console.log(imageUrl);
+
             console.log(data);
-            // const result = await createUser(data.email, data.password);
+            const result = await createUser(data.email, data.password);
             console.log(result);
-            await updateUserProfile(data.name, data.photo)
-            setUser({ ...user, photoURL: data.photo, displayName: data.name })
+
+
+            // 3. Update profile user name and photo in firebase
+            await updateUserProfile(data.name, imageUrl);
             navigate(from, { replace: true })
             toast.success('SignUp Successfull')
         } catch (err) {
@@ -35,7 +44,7 @@ const SignUp = () => {
             toast.error(err?.message)
         }
 
-        reset();
+        // reset();
     }
 
 
@@ -72,6 +81,35 @@ const SignUp = () => {
                             </div>
                         </div>
                         {/* Photo url  Field*/}
+                        <div className=' bg-white w-full  m-auto rounded-lg'>
+                            <div className="flex justify-between">
+                                <label
+                                    className='block mb-2 text-sm font-medium text-gray-600 '
+                                    htmlFor='LoggingEmailAddress'
+                                >
+                                    Photo
+                                </label>
+                            </div>
+                            <div className='file_upload px-1 py-2 relative border-2 border-gray-300 rounded-lg'>
+                                <div className='flex flex-col w-max mx-auto text-center'>
+                                    <label>
+                                        <input
+
+                                            {...register('image', { required: true })}
+                                            className='text-sm cursor-pointer w-36 hidden'
+                                            type='file'
+                                            name='image'
+                                            id='image'
+                                            accept='image/*'
+                                            hidden
+                                        />
+                                        <div className='bg-red-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-red-500'>
+                                            Upload Image
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                         {/* <div className='mt-2'>
                             <div className="flex justify-between">
                                 <label
@@ -111,14 +149,23 @@ const SignUp = () => {
                                     District
                                 </label>
                             </div>
-                            <input
-                                {...register("district", { required: true })}
-                                id='district'
-                                autoComplete='district'
+                            <select
+
+                                defaultValue='default' {...register('district', { required: true })}
                                 name='district'
-                                className='block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300'
-                                type='text'
-                            />
+                                id='district'
+                                className='border p-2 rounded-md w-full'
+                            >
+                                <option disabled value='default' selected>Select Your District </option>
+                                <option value='Barishal'>Barishal</option>
+                                <option value='Chittagong'>Chittagong</option>
+                                <option value='Dhaka'>Dhaka</option>
+                                <option value='Mymensingh'>Mymensingh</option>
+                                <option value='Khulna'>Khulna</option>
+                                <option value='Rajshahi'>Rajshahi</option>
+                                <option value='Rangpur'>Rangpur</option>
+                                <option value='Sylhet'>Sylhet</option>
+                            </select>
                             <div className="mt-2">
                                 {/* {errors.district && <span className="text-red-600 ">District  is required</span>} */}
                             </div>

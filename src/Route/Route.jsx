@@ -8,6 +8,8 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Blog from "../Pages/Blog/Blog";
+import Dashboard from "../Main/Dashboard";
+import CreateDonationRequest from "../Components/Dashbord/Sidebar/CreateDonationRequest/CreateDonationRequest";
 
   const router = createBrowserRouter([
     {
@@ -33,6 +35,17 @@ import Blog from "../Pages/Blog/Blog";
         }
       ]
     },
+
+    {
+      path : '/dashboard',
+      element : <Dashboard/>,
+      children: [
+        {
+          path: "create-donation-request",
+          element : <CreateDonationRequest/>
+        }
+      ]
+    }
   ]);
 
   export default router ;
