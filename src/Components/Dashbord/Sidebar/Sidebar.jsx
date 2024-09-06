@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
-
+import { HiOutlineUsers } from "react-icons/hi";
 import { AiOutlineBars } from 'react-icons/ai'
-import { BsFillHouseAddFill, BsGraphUp } from 'react-icons/bs'
+import {  BsGraphUp } from 'react-icons/bs'
+import { IoCreateOutline } from "react-icons/io5";
 import { NavLink } from 'react-router-dom'
 
 import { Link } from 'react-router-dom'
@@ -81,9 +82,9 @@ const Sidebar = () => {
                   }`
                 }
               >
+                <IoCreateOutline className='text-2xl'></IoCreateOutline>
                 
-
-                <span className='mx-4 font-medium'>Donation Request</span>
+                <span className='mx-4 font-medium'>Create  Request</span>
               </NavLink>
               {/* My Listing */}
               <NavLink
@@ -95,7 +96,19 @@ const Sidebar = () => {
                 }
               >
               
-                <span className='mx-4 font-medium'>My Listings</span>
+                <span className='mx-4 font-medium'>My Request</span>
+              </NavLink>
+              <NavLink
+                to='all-users'
+                className={({ isActive }) =>
+                  `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                    isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                  }`
+                }
+              >
+              <HiOutlineUsers className='text-2xl' />
+              
+                <span className='mx-4 font-medium'>All Users</span>
               </NavLink>
             </nav>
           </div>

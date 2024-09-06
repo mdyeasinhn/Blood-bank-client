@@ -10,6 +10,9 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Blog from "../Pages/Blog/Blog";
 import Dashboard from "../Main/Dashboard";
 import CreateDonationRequest from "../Components/Dashbord/Sidebar/CreateDonationRequest/CreateDonationRequest";
+import PrivateRoute from "./PrivateRoute";
+import CardDetails from "../Pages/Home/DonationRequests/CardDetails";
+import AllUsers from "../Components/Dashbord/AllUser/AllUsers";
 
   const router = createBrowserRouter([
     {
@@ -32,6 +35,10 @@ import CreateDonationRequest from "../Components/Dashbord/Sidebar/CreateDonation
         {
           path: '/signup',
           element :<SignUp/>
+        },
+        {
+          path: "/request/:id",
+          element : <PrivateRoute><CardDetails/></PrivateRoute>
         }
       ]
     },
@@ -43,6 +50,10 @@ import CreateDonationRequest from "../Components/Dashbord/Sidebar/CreateDonation
         {
           path: "create-donation-request",
           element : <CreateDonationRequest/>
+        },
+        {
+          path: "all-users",
+          element : <AllUsers/>
         }
       ]
     }

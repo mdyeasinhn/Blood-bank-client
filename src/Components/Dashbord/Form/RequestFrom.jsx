@@ -1,11 +1,12 @@
 import useAuth from "../../../hooks/useAuth"
 
-const RequestFrom = ({ }) => {
+const RequestFrom = ({handleSubmit }) => {
   const { user } = useAuth();
+  
 
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-      <form className='w-full  p-6 '>
+      <form onSubmit={handleSubmit} className='w-full  p-6 '>
         <div className='grid lg:grid-cols-2 md:grid-col-1  gap-6'>
 
           {/* Requester Name ) */}
@@ -137,7 +138,7 @@ const RequestFrom = ({ }) => {
           <div className='space-y-1 text-sm'>
             <label htmlFor='requestMessage' className='block text-gray-600'>Request Message</label>
             <textarea
-              className='w-full px-4 py-3 text-gray-800 border border-gray-300 focus:outline-red-500 rounded-md'
+              className='w-full px-4 py-2 text-gray-800 border border-gray-300 focus:outline-red-500 rounded-md'
               name='requestMessage'
               id='requestMessage'
               placeholder='Write your message here'

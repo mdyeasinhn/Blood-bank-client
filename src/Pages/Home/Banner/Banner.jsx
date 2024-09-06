@@ -10,13 +10,13 @@ const Banner = () => {
     return (
         <Carousel >
             <div>
-                <img src={banner} />
+                <img src="https://media.istockphoto.com/id/1781487564/photo/preparation-for-blood-test-with-senior-woman-by-female-doctor-medical-uniform-on-the-table-in.jpg?s=612x612&w=0&k=20&c=3o5PUAd0Vtx0aijACbrYK4EpLdfcCy8-IC40-hcFyUI="/>
             </div>
             <div>
-                <img src={banner1} />
+                <img src='https://media.istockphoto.com/id/1972079694/photo/cheerful-female-blood-donor-sitting-on-procedure-chair-in-clinic.jpg?s=612x612&w=0&k=20&c=RQjh6XZ_0DfJZxAP3BY85yp-1SfpUicIom1hyBIBQEk=' />
             </div>
             <div>
-                <img src={banner2} />
+                <img src='https://media.istockphoto.com/id/1303315827/photo/close-up-asian-chinese-nurse-drawing-blood-from-female-chinese-patient-arms-vein-in-the-clinic.jpg?s=612x612&w=0&k=20&c=07hAJhY0wm2P0_5EhMu3DPUKsFtSKC1N7_q5tS3v0F8=' />
             </div>
             
         </Carousel>
