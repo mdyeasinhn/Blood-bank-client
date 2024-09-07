@@ -3,15 +3,16 @@ import bgiImg from '../../assets/Image/Login/login.jpg';
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import toast from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider";
-import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { imageUploadFn } from "../../Utils";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 const SignUp = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const axiosPublic = useAxiosPublic()
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const { createUser, updateUserProfile, user, setUser, loading , setLoading} = useContext(AuthContext);
+    const { createUser, updateUserProfile, user, loading, setLoading } = useContext(AuthContext);
     useEffect(() => {
         if (user) {
             navigate('/')
@@ -19,30 +20,70 @@ const SignUp = () => {
     }, [navigate, user])
     const from = location.state || '/'
 
+    // post user form db
+    const { mutateAsync } = useMutation({
+        mutationFn: async user => {
+            const { data } = await axiosPublic.put(`/user`, user)
+            return data
+        },
+        onSuccess: () => {
+            console.log('Data save at Mongodb');
+
+
+
+        }
+    })
+
 
 
     // Sign In With Email Password
-    const onSubmit = async data => {
+    const handleSubmit = async e => {
+        setLoading(true)
+        // 1. upload image url get img url 
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        const name = form.name.value;
+        const image = form.image.files[0];
+        const bloodGroup = form.blood.value;
+        const upazila = form.upazila.value;
+        const district = form.district.value;
+        const userInfo = {
+            role: "volunteer",
+            status: "active"
+        }
         try {
-         setLoading(true)
-            // 1. upload image url get img url 
-            const imageUrl = await imageUploadFn(data.image[0])
-         
-            console.log(imageUrl);
+        const imageUrl = await imageUploadFn(image)
 
-            console.log(data);
-            const result = await createUser(data.email, data.password);
+
+            const user = {
+                email, name,  bloodGroup, upazila, district, imageUrl, userInfo
+            }
+
+
+
+
+          
+            const result = await createUser(email, password);
+
             console.log(result);
 
 
             // 3. Update profile user name and photo in firebase
-            await updateUserProfile(data.name, imageUrl);
+            await updateUserProfile(name, imageUrl);
             navigate(from, { replace: true })
+
             toast.success('SignUp Successfull')
+
+
+            await mutateAsync(user)
         } catch (err) {
             console.log(err);
             toast.error(err?.message)
         }
+
+
+
 
         // reset();
     }
@@ -57,7 +98,7 @@ const SignUp = () => {
                         Get Your Free Account Now.
                     </p>
                     <div className='divider'></div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit}>
                         {/* User Name Field */}
                         <div className='mt-4'>
                             <div className="flex justify-between">
@@ -69,7 +110,7 @@ const SignUp = () => {
                                 </label>
                             </div>
                             <input
-                                {...register("name", { required: true })}
+
                                 id='name'
                                 autoComplete='name'
                                 name='name'
@@ -77,7 +118,7 @@ const SignUp = () => {
                                 type='text'
                             />
                             <div className="mt-2">
-                                {errors.name && <span className="text-red-600 ">Name is required</span>}
+
                             </div>
                         </div>
                         {/* Photo url  Field*/}
@@ -95,7 +136,7 @@ const SignUp = () => {
                                     <label>
                                         <input
 
-                                            {...register('image', { required: true })}
+
                                             className='text-sm cursor-pointer w-36 hidden'
                                             type='file'
                                             name='image'
@@ -110,33 +151,7 @@ const SignUp = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className='mt-2'>
-                            <div className="flex justify-between">
-                                <label
-                                    className='block mb-2 text-sm font-medium text-gray-600'
-                                    htmlFor='photo'
-                                >
-                                    Upload Photo
-                                </label>
-                            </div>
-                            <input
-                                {...register("photo", { required: true })}
-                                id='photo'
-                                name='photo'
-                                type='file'
-                                className='hidden'
-                            />
-                            <button
-                                type='button'
-                                onClick={() => document.getElementById('photo').click()}
-                                className='block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:border-blue-400 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300 text-left'
-                            >
-                                Choose Your Photo
-                            </button>
-                            <div className="mt-2">
-                                {errors.photo && <span className="text-red-600">Photo  is required</span>}
-                            </div>
-                        </div> */}
+
 
 
                         {/* District  Field*/}
@@ -151,7 +166,6 @@ const SignUp = () => {
                             </div>
                             <select
 
-                                defaultValue='default' {...register('district', { required: true })}
                                 name='district'
                                 id='district'
                                 className='border p-2 rounded-md w-full'
@@ -181,7 +195,7 @@ const SignUp = () => {
                                 </label>
                             </div>
                             <input
-                                {...register("upazila", { required: true })}
+
                                 id='upazila'
                                 autoComplete='upazila'
                                 name='upazila'
@@ -202,7 +216,7 @@ const SignUp = () => {
                                 </label>
                             </div>
                             <select
-                                defaultValue='default' {...register('blood', { required: true })}
+
                                 name='blood'
                                 id='blood'
                                 className='border p-2 rounded-md'
@@ -229,7 +243,7 @@ const SignUp = () => {
                                 </label>
                             </div>
                             <input
-                                {...register("email", { required: true })}
+
                                 id='LoggingEmailAddress'
                                 autoComplete='email'
                                 name='email'
@@ -237,7 +251,7 @@ const SignUp = () => {
                                 type='email'
                             />
                             <div className="mt-2">
-                                {errors.email && <span className="text-red-600 ">Email is required</span>}
+
                             </div>
                         </div>
                         {/* Password  Field*/}
@@ -252,10 +266,7 @@ const SignUp = () => {
                             </div>
 
                             <input
-                                {...register("password", {
-                                    required: true,
-                                    minLength: 6,
-                                })}
+
                                 id='loggingPassword'
                                 autoComplete='current-password'
                                 name='password'
@@ -268,8 +279,7 @@ const SignUp = () => {
                                 }
                             </span>
                             <div className="mt-2">
-                                {errors.password?.type === 'required' && <span className="text-red-600 ">Password is required</span>}
-                                {errors.password?.type === 'minLength' && <span className="text-red-600 ">Password must be 6 Charcters</span>}
+
                             </div>
                         </div>
                         {/* Submit From */}
@@ -301,7 +311,9 @@ const SignUp = () => {
                     style={{
                         backgroundImage: `url(${bgiImg})`,
                     }}
-                ></div>
+                >
+
+                </div>
             </div>
         </div>
     )
