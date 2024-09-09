@@ -48,22 +48,22 @@ const SignUp = () => {
         const bloodGroup = form.blood.value;
         const upazila = form.upazila.value;
         const district = form.district.value;
-        const userInfo = {
-            role: "volunteer",
-            status: "active"
-        }
+
+        const role = "volunteer";
+        const status = "active";
+
         try {
-        const imageUrl = await imageUploadFn(image)
+            const imageUrl = await imageUploadFn(image)
 
 
             const user = {
-                email, name,  bloodGroup, upazila, district, imageUrl, userInfo
+                email, name, bloodGroup, upazila, district, imageUrl, role, status
             }
 
 
 
 
-          
+
             const result = await createUser(email, password);
 
             console.log(result);

@@ -7,11 +7,15 @@ import { NavLink } from 'react-router-dom'
 
 import { Link } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
+import useRole from '../../../hooks/useRole'
+import DonorMenu from './Menu/DonorMenu'
+import AdminMenu from './Menu/AdminMenu'
 
 const Sidebar = () => {
   const { logOut } = useAuth()
   const [isActive, setActive] = useState(false)
-
+  const [role, isLoading] = useRole();
+  console.log(role);
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive)
@@ -71,7 +75,10 @@ const Sidebar = () => {
                 <span className='mx-4 font-medium'>Statistics</span>
               </NavLink>
 
-          
+          {/* add request */}
+          {role === "donor" &&  <DonorMenu/>}
+          {role === "admin" &&  <AdminMenu/>}
+
               {/* My Listing */}
               <NavLink
                 to='my-listings'
