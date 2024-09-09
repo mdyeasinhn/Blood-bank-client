@@ -1,6 +1,18 @@
-import React from 'react';
 
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
+import UserDataRow from './UserDataRow';
 const AllUsers = () => {
+    const axiosSecure = useAxiosSecure();
+     // fetch users data
+     const { data: users = [], isLoading, refetch } = useQuery({
+        queryKey: ['users',],
+        queryFn: async () => {
+            const { data } = await axiosSecure(`/users`)
+            return data
+        }
+    })
+    console.log(users);
     return (
         <>
             <div className='container mx-auto px-4 sm:px-8'>
@@ -52,6 +64,9 @@ const AllUsers = () => {
                                 </thead>
                                 <tbody>
                                  {/* user map */}
+                                 {users.map(user => (
+                                    <UserDataRow user={user} key={user?._id}/>
+                                 ))}
                                 </tbody>
                             </table>
                         </div>
