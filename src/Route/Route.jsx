@@ -13,6 +13,7 @@ import CreateDonationRequest from "../Components/Dashbord/Sidebar/CreateDonation
 import PrivateRoute from "./PrivateRoute";
 import CardDetails from "../Pages/Home/DonationRequests/CardDetails";
 import AllUsers from "../Components/Dashbord/AllUser/AllUsers";
+import ContentManagement from "../Components/Dashbord/ContentManagement/ContentManagement";
 
   const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ import AllUsers from "../Components/Dashbord/AllUser/AllUsers";
         {
           path: "create-donation-request",
           element : <CreateDonationRequest/>
+        },
+        {
+          path: "content-management",
+          element : <ContentManagement/>
         },
         {
           path: "all-users",
