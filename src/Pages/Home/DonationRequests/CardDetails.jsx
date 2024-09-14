@@ -26,7 +26,7 @@ const CardDetails = () => {
       <div className="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto">
        <div className='flex justify-between'>
        <h2 className="text-2xl font-bold mb-4">Donation Request </h2>
-        <h2 className='badge-outline badge'>Pending</h2>
+        <h2 className='badge-outline badge'>{request.status}</h2>
        </div>
 
         <table className="table-auto w-full border-collapse border border-gray-300">
