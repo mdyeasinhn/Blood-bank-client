@@ -78,12 +78,7 @@ const CardDetails = () => {
               <td className="px-4 py-2 border font-semibold">Request Message:</td>
               <td className="px-4 py-2 border">{request.requestMessage}</td>
             </tr>
-{/* 
-            Donation Status
-            <tr>
-              <td className="px-4 py-2 border font-semibold">Donation Status:</td>
-              <td className="px-4 py-2 border">{request.donationStatus || 'Pending'}</td>
-            </tr> */}
+
           </tbody>
        
         </table>

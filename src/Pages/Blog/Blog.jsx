@@ -1,4 +1,6 @@
 const Blog = () => {
+    
+
     return (
         <div>
             <section className="bg-white">

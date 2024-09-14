@@ -1,19 +1,53 @@
 import React, { useState } from 'react';
 import AddBlogModal from './AddBlogModal';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
 
 const ContentManagement = () => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const axiosSecure = useAxiosSecure()
     const axiosPublic = useAxiosPublic();
-    const { data: blogs = [], isLoading } = useQuery({
+    const { data: blogs = [], isLoading, refetch } = useQuery({
         queryKey: ['blogs'],
         queryFn: async () => {
             const { data } = await axiosPublic.get("/all-blogs")
             return data
         }
     })
+
+
+
+    const { mutateAsync } = useMutation({
+        mutationFn: async ({ id, status }) => {  
+          const { data } = await axiosSecure.patch(`/blog/update/${id}`, { status });
+          return data;
+        },
+        onSuccess: data => {
+          refetch();
+          console.log(data);
+          toast.success('Blog status updated successfully!');
+        },
+      });
+
+
+
+    //   modal handler
+    const handleStatusChange = async (blog) => {
+        const newStatus = blog.status === 'draft' ? 'published' : 'draft';
+        const blogStatus = {
+            status: newStatus,
+        }
+        try {
+            await mutateAsync({ id: blog._id, ...blogStatus });
+        } catch (err) {
+            console.log(err)
+            toast.error(err.message)
+        }
+    }
+
     console.log(blogs);
     const closeModal = () => {
         setIsOpen(false)
@@ -99,11 +133,22 @@ const ContentManagement = () => {
                                                 <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                                                     <p className='text-gray-900 whitespace-no-wrap'>{blog.date}</p>
                                                 </td>
-                                              
+                                                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+                                                    {blog?.status && (
+                                                        <button
+                                                            onClick={()=>handleStatusChange(blog)}
+                                                            className={`btn-sm btn rounded-xl ${blog.status === 'draft' ? 'bg-red-400 hover:bg-red-300' : 'bg-green-400 hover:bg-green-300'
+                                                                }`}
+                                                        >
+                                                            {blog.status === 'draft' ? 'UnPublished' : 'Published'}
+                                                        </button>
+                                                    )}
+                                                </td>
 
 
-                                               
-                                              
+
+
+
                                             </tr>
                                         ))
                                     }
