@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import DonateModal from './DonateModal';
 
 
 const CardDetails = () => {
-
+  const [isOpen, setIsOpen] = useState(false);
   // single  request
 
   const { id } = useParams()
@@ -20,6 +21,9 @@ const CardDetails = () => {
   })
 
   console.log(request);
+  const closeModal = () => {
+    setIsOpen(false)
+}
 
   return (
     <div className=' w-full p-8  flex justify-center'>
@@ -83,9 +87,13 @@ const CardDetails = () => {
        
         </table>
         <div className='text-center mt-4'>
-            <button className='btn btn-block bg-red-500'>
+            <button     disabled={request.status === 'inprogress'}   onClick={() => setIsOpen(true)} className='btn btn-block bg-red-500'>
               Donate
             </button>
+
+            <DonateModal closeModal={closeModal} isOpen={isOpen} setIsOpen={setIsOpen} request={ request}/>
+
+            
           </div>
       </div>
 
