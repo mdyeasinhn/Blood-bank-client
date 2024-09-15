@@ -51,7 +51,7 @@ const Sidebar = () => {
           <div>
             <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-rose-100 mx-auto'>
               <Link to='/'>
-              <h3>blood donation</h3>
+              <h3>Blood Bank</h3>
               </Link>
             </div>
           </div>

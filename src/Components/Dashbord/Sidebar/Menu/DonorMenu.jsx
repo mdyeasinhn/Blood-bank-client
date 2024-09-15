@@ -7,7 +7,11 @@ const DonorMenu = () => {
         <div>
 
             <MenuItem label= 'Create Request' address='create-donation-request' icon={IoCreateOutline}/>
-            <MenuItem label= 'My Request' address='my-listings' icon={IoCreateOutline}/>
+            
+            <MenuItem label= 'My Request' address='my-requests' icon={IoCreateOutline}/>
+
+            
+            <MenuItem label= 'My Donation' address='my-donation' icon={IoCreateOutline}/>
             
 
         </div>

@@ -4,8 +4,10 @@ import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import toast from 'react-hot-toast';
+import useRole from '../../../hooks/useRole';
 
 const ContentManagement = () => {
+    const [role] = useRole();
     const [isOpen, setIsOpen] = useState(false);
 
     const axiosSecure = useAxiosSecure()
@@ -19,18 +21,17 @@ const ContentManagement = () => {
     })
 
 
-
     const { mutateAsync } = useMutation({
-        mutationFn: async ({ id, status }) => {  
-          const { data } = await axiosSecure.patch(`/blog/update/${id}`, { status });
-          return data;
+        mutationFn: async ({ id, status }) => {
+            const { data } = await axiosSecure.patch(`/blog/update/${id}`, { status });
+            return data;
         },
         onSuccess: data => {
-          refetch();
-          console.log(data);
-          toast.success('Blog status updated successfully!');
+            refetch();
+            console.log(data);
+            toast.success('Blog status updated successfully!');
         },
-      });
+    });
 
 
 
@@ -136,7 +137,8 @@ const ContentManagement = () => {
                                                 <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                                                     {blog?.status && (
                                                         <button
-                                                            onClick={()=>handleStatusChange(blog)}
+                                                            disabled={role === 'volunteer'}
+                                                            onClick={() => handleStatusChange(blog)}
                                                             className={`btn-sm btn rounded-xl ${blog.status === 'draft' ? 'bg-red-400 hover:bg-red-300' : 'bg-green-400 hover:bg-green-300'
                                                                 }`}
                                                         >

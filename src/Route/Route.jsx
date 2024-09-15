@@ -16,6 +16,9 @@ import AllUsers from "../Components/Dashbord/AllUser/AllUsers";
 import ContentManagement from "../Components/Dashbord/ContentManagement/ContentManagement";
 import Statistics from "../Components/Dashbord/Statistics/Statistics";
 import Profile from "../Components/Dashbord/Profile/Profile";
+import MyRequests from "../Components/Dashbord/Sidebar/MyRequests/MyRequests";
+import AllRequests from "../Components/Dashbord/Sidebar/AllRequests/AllRequests";
+import MyDonation from "../Components/Dashbord/MyDonation/MyDonation";
 
   const router = createBrowserRouter([
     {
@@ -48,7 +51,7 @@ import Profile from "../Components/Dashbord/Profile/Profile";
 
     {
       path : '/dashboard',
-      element : <Dashboard/>,
+      element : <PrivateRoute><Dashboard/></PrivateRoute>,
       children: [
         {
           path: "statistics",
@@ -57,6 +60,18 @@ import Profile from "../Components/Dashbord/Profile/Profile";
         {
           path: "create-donation-request",
           element : <CreateDonationRequest/>
+        },
+        {
+          path: "all-requests",
+          element : <AllRequests/>
+        },
+        {
+          path: "my-requests",
+          element : <MyRequests/>
+        },
+        {
+          path: "my-donation",
+          element : <MyDonation/>
         },
         {
           path: "content-management",

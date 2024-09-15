@@ -7,12 +7,13 @@ import {
 } from '@headlessui/react';
 import { BsCheckLg } from 'react-icons/bs';
 import { AiOutlineDown } from 'react-icons/ai';
+import useRole from '../../../hooks/useRole';
 
 const roles = ['volunteer', 'donor', 'admin'];
 
 const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
   const [selected, setSelected] = useState(user.role); // Initialize with user's current role
-
+  const [role] = useRole()
 
   console.log('option select', selected);
   return (
@@ -50,7 +51,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
                 </Dialog.Title>
 
                 <div className='mt-4 w-full'>
-                  <select onChange={(e)=>setSelected(e.target.value)}>
+                  <select value={role} onChange={(e)=>setSelected(e.target.value)}   className='w-full px-2 py-3 text-gray-800 border border-gray-300 rounded-md'>
                     {
 
                       roles.map(role =>(
@@ -60,7 +61,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
                   </select>
                 </div>
 
-                <hr className='mt-16 ' />
+                <hr className='mt-10 ' />
 
                 <div className='flex mt-2 justify-center gap-5'>
                   <button

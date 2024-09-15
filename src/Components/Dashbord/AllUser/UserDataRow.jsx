@@ -49,6 +49,10 @@ const UserDataRow = ({ user, refetch }) => {
 
     // Handle role update  modal
     const handleRoleUpdate = async (selectedRole) => {
+        if (loggedInUser.email === user.email) {
+            toast.error('Action Not Allowed')
+            return setIsOpen(false)
+          }
         try {
             await updateRole(selectedRole);
         } catch (error) {

@@ -3,9 +3,12 @@ import RequestFrom from '../../Form/RequestFrom';
 import useAuth from '../../../../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query'
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const CreateDonationRequest = () => {
     const { user } = useAuth();
+    const navigate = useNavigate()
     const axiosSecure = useAxiosSecure()
 
 
@@ -17,7 +20,8 @@ const CreateDonationRequest = () => {
         },
         onSuccess: () => {
             console.log('Data save at Mongodb');
-         
+            toast.success("Create request successfull!")
+            navigate('/my-requests');
       
            
         }
